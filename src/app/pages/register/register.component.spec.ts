@@ -1,11 +1,8 @@
 import { UserApi } from '@/apiclient';
-import { fn } from '@angular/compiler/src/output/output_ast';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { rejects } from 'assert';
-import { AxiosResponse } from 'axios';
 
 import { RegisterComponent } from './register.component';
 
