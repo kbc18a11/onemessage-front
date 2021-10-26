@@ -1,0 +1,26 @@
+.title {
+  text-align: center;
+  font-size: 3em;
+  font-weight: bold;
+}
+.login-card {
+  max-width: 800px;
+  margin: auto;
+}
+.form-content {
+  text-align: center;
+  width: 100%;
+}
+.form-item {
+  width: 80%;
+}
+.button-content {
+  text-align: center;
+}
+mat-form-field.mat-form-field {
+  font-size: 1.2em;
+}
+.button-item {
+  width: 100px !important;
+  min-width: unset !important;
+}
