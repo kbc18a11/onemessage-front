@@ -111,11 +111,8 @@ export class RegisterComponent implements OnInit {
       });
 
       if (response.status !== 201) throw new Error();
-
-      //this.router.navigateByUrl('/home');
     } catch (e) {
       console.error(e);
-
     }
   }
 }

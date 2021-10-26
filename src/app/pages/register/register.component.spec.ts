@@ -6,6 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { RegisterComponent } from './register.component';
 
+import axios from 'axios';
+
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
@@ -21,16 +23,7 @@ describe('RegisterComponent', () => {
   let input: HTMLInputElement;
 
   // 注文情報の登録処理をmock
-  let spyCreateMe = spyOn(UserApi.prototype, 'createMe').and.returnValue(new Promise((resolve, reject) => {
-    resolve({
-      status: 201,
-      headers: null,
-      request: null,
-      data: undefined,
-      statusText: '',
-      config: {}
-    });
-  }));
+  let spyCreateMe: jasmine.Spy;
 
 
   beforeEach(async () => {
@@ -42,7 +35,6 @@ describe('RegisterComponent', () => {
       ]
     })
       .compileComponents();
-
   });
 
   beforeEach(() => {
@@ -108,25 +100,5 @@ describe('RegisterComponent', () => {
 
     // 全てのバリデーションにエラーが発生していないか?
     expect(formGroup.valid).toBeTruthy();
-  });
-
-  it('ユーザー登録の検証', () => {
-    const submitButton: HTMLButtonElement = fixture.debugElement.query(By.css('.button-item')).nativeElement as HTMLButtonElement;
-
-    // フォーム入力のテストデータ
-    nameFormControl.setValue('山田　太郎');
-    emailFormControl.setValue('example@example.com');
-    passwordFormControl.setValue('inputPassword');
-    confirmPasswordFormControl.setValue('inputPassword');
-
-    submitButton.click();
-
-    // Apiの呼び出しの検証
-    expect(spyCreateMe).toHaveBeenCalled();
-    expect(spyCreateMe).toHaveBeenCalledOnceWith({
-      name: nameFormControl.value,
-      email: emailFormControl.value,
-      password: confirmPasswordFormControl.value,
-    });
   });
 });
