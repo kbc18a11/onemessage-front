@@ -1,0 +1,103 @@
+<h2 class="title">
+  ユーザー情報登録
+</h2>
+<mat-card class="login-card">
+  <mat-card-content>
+    <form
+      [formGroup]="formGroup"
+      (ngSubmit)="submit()"
+    >
+      <div class="form-content">
+        <mat-form-field
+          class="form-item"
+          appearance="standard"
+        >
+          <mat-label>名前</mat-label>
+          <input
+            matInput
+            name="name"
+            [formControl]="name"
+            placeholder="山田太郎"
+          >
+          <mat-error *ngIf="name.hasError('maxlength') && !name.hasError('required')">
+            255文字以内に入力してください
+          </mat-error>
+          <mat-error *ngIf="name.hasError('required')">
+            必須項目です
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-content">
+        <mat-form-field
+          class="form-item"
+          appearance="standard"
+        >
+          <mat-label>メールアドレス</mat-label>
+          <input
+            matInput
+            name="email"
+            type="email"
+            [formControl]="email"
+            placeholder="taro@yamada.com"
+          >
+          <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+            メールアドレスを入力してください
+          </mat-error>
+          <mat-error *ngIf="email.hasError('required')">
+            必須項目です
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-content">
+        <mat-form-field
+          class="form-item"
+          appearance="standard"
+        >
+          <mat-label>パスワード</mat-label>
+          <input
+            matInput
+            name="password"
+            type="password"
+            [formControl]="password"
+          >
+          <mat-error *ngIf="password.hasError('pattern')">
+            半角英数字8文字以上100文字以下で入力してください
+          </mat-error>
+          <mat-error *ngIf="password.hasError('required')">
+            必須項目です
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-content">
+        <mat-form-field
+          class="form-item"
+          appearance="standard"
+        >
+          <mat-label>パスワードの確認</mat-label>
+          <input
+            matInput
+            name="confirm-password"
+            type="password"
+            [formControl]="confirmPassword"
+          >
+          <mat-error *ngIf="confirmPassword.hasError('required')">
+            必須項目です
+          </mat-error>
+          <mat-error *ngIf="confirmPassword.hasError('register') && !confirmPassword.hasError('required')">
+            パスワードが一致しません
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="button-content">
+        <button
+          mat-raised-button
+          color="primary"
+          class="button-item"
+        >
+          登録
+        </button>
+      </div>
+    </form>
+    <div><a routerLink="/login">ログインはこちら</a></div>
+  </mat-card-content>
+</mat-card>
