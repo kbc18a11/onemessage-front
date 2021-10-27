@@ -3,6 +3,10 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Configuration, UserApi } from '@/app/apiclient';
 import { environment } from '@/environments/environment';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Overlay } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { MatSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
@@ -33,11 +37,16 @@ export class RegisterComponent implements OnInit {
       validators: [this.matchPassword]
     });
 
-  constructor(private router: Router) { }
+  overlayRef = this.overlay.create({
+    hasBackdrop: true,
+    positionStrategy: this.overlay
+      .position().global().centerHorizontally().centerVertically()
+  });
+
+  constructor(public router: Router, public snackBar: MatSnackBar, public overlay: Overlay) { }
 
   ngOnInit(): void {
   }
-
 
   /**
    * フォームで入力された名前情報を取得
@@ -97,11 +106,12 @@ export class RegisterComponent implements OnInit {
    * submit
    */
   public async submit() {
-
     if (!this.formGroup.valid) {
       // バリデーションエラーが存在する場合
       return;
     }
+
+    this.overlayRef.attach(new ComponentPortal(MatSpinner));
 
     try {
       const response = await new UserApi(new Configuration({ basePath: environment.apiUrl })).createMe({
@@ -111,8 +121,14 @@ export class RegisterComponent implements OnInit {
       });
 
       if (response.status !== 201) throw new Error();
+
+      this.router.navigateByUrl('/');
     } catch (e) {
       console.error(e);
+
+      this.snackBar.open('ユーザー登録に失敗しました', '閉じる', { verticalPosition: 'top' });
     }
+
+    this.overlayRef.detach();
   }
 }
