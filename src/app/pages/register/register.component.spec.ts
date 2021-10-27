@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RegisterComponent } from './register.component';
 
 import axios from 'axios';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -31,7 +32,8 @@ describe('RegisterComponent', () => {
       declarations: [RegisterComponent],
       imports: [
         RouterTestingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatSnackBarModule
       ]
     })
       .compileComponents();
