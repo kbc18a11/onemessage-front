@@ -1,4 +1,5 @@
-import { AuthApi, Configuration } from '@/app/apiclient';
+import { AuthApi, Configuration, UserApi } from '@/app/apiclient';
+import { AuthService } from '@/app/services/auth/auth.service';
 import { environment } from '@/environments/environment';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -7,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import axios, { AxiosRequestConfig } from 'axios';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +32,12 @@ export class LoginComponent implements OnInit {
       .position().global().centerHorizontally().centerVertically()
   });
 
-  constructor(public overlay: Overlay, public router: Router, public snackBar: MatSnackBar) { }
+  constructor(
+    public overlay: Overlay,
+    public router: Router,
+    public snackBar: MatSnackBar,
+    public authService: AuthService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -61,12 +68,25 @@ export class LoginComponent implements OnInit {
     this.overlayRef.attach(new ComponentPortal(MatSpinner));
 
     try {
-      const response = await new AuthApi(new Configuration({ basePath: environment.apiUrl })).login({
-        email: this.formGroup.get('email')?.value,
-        password: this.formGroup.get('password')?.value,
-      });
+      const loginConfig: AxiosRequestConfig = {
+        method: 'post',
+        url: `${environment.apiUrl}/login?email=${this.email.value}&password=${this.password.value}`,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
 
-      if (response.status !== 200) throw new Error();
+      const loginResponse = await axios(loginConfig);
+
+      if (loginResponse.status !== 200) throw new Error();
+
+      const meResponse = await new UserApi(new Configuration({ basePath: environment.apiUrl, apiKey: loginResponse.headers.authorization }))
+        .getMe();
+
+      if (meResponse.data.name) {
+        // ログイン状態の状態を変更
+        this.authService.logined(loginResponse.headers.authorization, meResponse.data.name);
+      }
 
       this.router.navigateByUrl('/');
     } catch (e) {
