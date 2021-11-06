@@ -6,6 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "gGuard": "ng g guard guards/${npm_config_name}",
+    "gComponent": "ng g component component/${npm_config_name}",
+    "gPage": "ng g component pages/${npm_config_name}",
+    "gServices": "ng g service services/${npm_config_name}",
     "test": "ng test"
   },
   "private": true,
