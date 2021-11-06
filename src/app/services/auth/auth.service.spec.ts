@@ -10,7 +10,7 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = new AuthService();
+    service = TestBed.inject(AuthService);
 
     // ローカルストレージのモック化
     spyOn(localStorage.__proto__, 'getItem')
@@ -20,7 +20,7 @@ describe('AuthService', () => {
   });
 
   it('コンストラクタの検証', () => {
-    const constructorTestService = TestBed.inject(AuthService);
+    const constructorTestService = new AuthService();
 
     expect(constructorTestService).toBeTruthy();
     expect(constructorTestService.name).toBe(name);
