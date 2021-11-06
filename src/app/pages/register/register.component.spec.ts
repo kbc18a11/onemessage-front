@@ -6,8 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { RegisterComponent } from './register.component';
 
-import axios from 'axios';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -23,13 +23,11 @@ describe('RegisterComponent', () => {
   // 入力フォームのhtml
   let input: HTMLInputElement;
 
-  // 注文情報の登録処理をmock
-  let spyCreateMe: jasmine.Spy;
-
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RegisterComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [],
       imports: [
         RouterTestingModule,
         ReactiveFormsModule,
