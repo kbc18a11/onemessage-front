@@ -32,8 +32,6 @@ describe('AuthService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    expect(service.name).toBe(name);
-    expect(service.token).toBe(token);
   });
 
   it('ログインの検証', () => {
