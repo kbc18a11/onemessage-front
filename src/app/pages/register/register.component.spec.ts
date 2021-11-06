@@ -22,10 +22,6 @@ describe('RegisterComponent', () => {
   // 入力フォームのhtml
   let input: HTMLInputElement;
 
-  // 注文情報の登録処理をmock
-  let spyCreateMe: jasmine.Spy;
-
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RegisterComponent],
