@@ -8,6 +8,13 @@
   text-decoration: none;
   color: white;
 }
+.user-name {
+  margin-left: 50%;
+}
+.user-name a {
+  text-decoration: none;
+  color: white;
+}
 .container {
   width: auto;
   height: auto;

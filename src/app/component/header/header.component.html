@@ -15,6 +15,14 @@
       One Message
     </a>
   </h2>
+  <div
+    class="user-name"
+    *ngIf="authService.isLogin"
+  >
+    <a routerLink="/">
+      {{authService.name}}
+    </a>
+  </div>
 </mat-toolbar>
 <mat-sidenav-container fxFlexFill>
   <mat-sidenav
