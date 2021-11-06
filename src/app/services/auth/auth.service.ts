@@ -36,4 +36,18 @@ export class AuthService {
     localStorage.setItem('token', token);
     localStorage.setItem('name', name);
   }
+
+  /**
+   * ログアウト処理
+   */
+  logout() {
+    // ログイン情報を削除
+    this.token = '';
+    this.name = '';
+    this.isLogin = false;
+
+    // ローカルストレージ情報を削除
+    localStorage.removeItem('token');
+    localStorage.removeItem('name');
+  }
 }

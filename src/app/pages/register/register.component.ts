@@ -148,8 +148,6 @@ export class RegisterComponent implements OnInit {
       }
 
       this.router.navigateByUrl('/');
-
-      this.router.navigateByUrl('/');
     } catch (e) {
       console.error(e);
 
