@@ -6,8 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { RegisterComponent } from './register.component';
 
-import axios from 'axios';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
