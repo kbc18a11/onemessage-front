@@ -23,6 +23,13 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HeaderComponent } from './component/header/header.component';
 import { FooterComponent } from './component/footer/footer.component';
+import { SocialAccountManagementComponent } from './pages/social-account-management/social-account-management.component';
+import { TwitterAccountManagementCardComponent } from './component/twitter-account-management-card/twitter-account-management-card.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -30,7 +37,9 @@ import { FooterComponent } from './component/footer/footer.component';
     RegisterComponent,
     LoginComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SocialAccountManagementComponent,
+    TwitterAccountManagementCardComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +58,14 @@ import { FooterComponent } from './component/footer/footer.component';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    AngularFireModule.initializeApp({
+      apiKey: environment.FREA_BASE_APIKEY,
+      authDomain: environment.FREA_BASE_AUTH_DOMAIN,
+      projectId: environment.FREA_BASE_PROJECT_ID,
+      messagingSenderId: environment.FREA_BASE_MESSAGING_SENDER_ID,
+      appId: environment.FREA_BASE_APP_ID
+    }),
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

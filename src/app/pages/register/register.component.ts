@@ -144,7 +144,7 @@ export class RegisterComponent implements OnInit {
 
       if (meResponse.data.name) {
         // ログイン状態の状態を変更
-        this.authService.logined(loginResponse.headers.authorization, meResponse.data.name);
+        this.authService.logined(loginResponse.headers.authorization, meResponse.data.name, meResponse.data.id);
       }
 
       this.router.navigateByUrl('/');
