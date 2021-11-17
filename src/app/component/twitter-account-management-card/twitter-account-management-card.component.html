@@ -1,0 +1,42 @@
+<mat-card *ngIf="twitterAccount; else elseContent">
+  <mat-card-title>Twitter</mat-card-title>
+  <mat-card-content class="account-info">
+    <div class="account-info-content">
+      <img
+        mat-card-image
+        [src]="twitterAccount?.profileImageURL"
+      >
+    </div>
+    <div class="account-info-content">
+      <div class="name">{{twitterAccount?.screenName}}</div>
+      <div class="account-url">
+        <a [href]="twitterAccount?.accountUrl">アカウントページ</a>
+      </div>
+      <div class="button-content">
+        <button
+          mat-raised-button
+          color="primary"
+          class="button-item"
+          (click)="detachAccount()"
+        >
+          Twitterアカウントを解除する
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<ng-template #elseContent>
+  <mat-card>
+    <mat-card-title>Twitterアカウントを登録してください</mat-card-title>
+    <div class="button-content">
+      <button
+        mat-raised-button
+        color="primary"
+        class="button-item submit-button"
+        (click)="rigisterAccount()"
+      >
+        登録
+      </button>
+    </div>
+  </mat-card>
+</ng-template>

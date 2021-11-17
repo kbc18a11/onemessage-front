@@ -47,6 +47,25 @@ export interface CreateMeRequest {
     password: string;
 }
 /**
+ * Twitterのアクセストークン
+ * @export
+ * @interface CreateTwitterAccessTokenRequest
+ */
+export interface CreateTwitterAccessTokenRequest {
+    /**
+     * Twitterのアクセストークン
+     * @type {string}
+     * @memberof CreateTwitterAccessTokenRequest
+     */
+    accessToken: string;
+    /**
+     * Twitterのアクセス用秘密鍵
+     * @type {string}
+     * @memberof CreateTwitterAccessTokenRequest
+     */
+    secretKey?: string;
+}
+/**
  * ユーザー情報
  * @export
  * @interface GetMeResponse
@@ -70,6 +89,31 @@ export interface GetMeResponse {
      * @memberof GetMeResponse
      */
     email?: string;
+}
+/**
+ * TwitterのOAuth認可用のURL
+ * @export
+ * @interface GetTwitterAccountResponse
+ */
+export interface GetTwitterAccountResponse {
+    /**
+     * アカウント名
+     * @type {string}
+     * @memberof GetTwitterAccountResponse
+     */
+    screenName: string;
+    /**
+     * アカウントアイコン画像
+     * @type {string}
+     * @memberof GetTwitterAccountResponse
+     */
+    profileImageURL: string;
+    /**
+     * アカウントページのURL
+     * @type {string}
+     * @memberof GetTwitterAccountResponse
+     */
+    accountUrl: string;
 }
 /**
  * 初期登録時のユーザー情報
@@ -199,6 +243,249 @@ export class AuthApi extends BaseAPI {
 
 
 /**
+ * TwitterApi - axios parameter creator
+ * @export
+ */
+export const TwitterApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Firebaseから取得した、アクセストークンを登録する
+         * @summary アクセストークンの登録
+         * @param {CreateTwitterAccessTokenRequest} createTwitterAccessTokenRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTwitterAccessToken: async (createTwitterAccessTokenRequest: CreateTwitterAccessTokenRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createTwitterAccessTokenRequest' is not null or undefined
+            assertParamExists('createTwitterAccessToken', 'createTwitterAccessTokenRequest', createTwitterAccessTokenRequest)
+            const localVarPath = `/twitter/auth`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createTwitterAccessTokenRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * アクセストークンを削除
+         * @summary twitterアクセストークンを削除
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTwitterAccessToken: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/twitter/auth`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * ユーザー情報のTwitter情報を取得
+         * @summary ユーザー情報のTwitter情報を取得
+         * @param {string} userId ユーザーID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTwitterAccount: async (userId: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('getTwitterAccount', 'userId', userId)
+            const localVarPath = `/user/{userId}/twitter`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TwitterApi - functional programming interface
+ * @export
+ */
+export const TwitterApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TwitterApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Firebaseから取得した、アクセストークンを登録する
+         * @summary アクセストークンの登録
+         * @param {CreateTwitterAccessTokenRequest} createTwitterAccessTokenRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createTwitterAccessToken(createTwitterAccessTokenRequest: CreateTwitterAccessTokenRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createTwitterAccessToken(createTwitterAccessTokenRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * アクセストークンを削除
+         * @summary twitterアクセストークンを削除
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteTwitterAccessToken(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTwitterAccessToken(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * ユーザー情報のTwitter情報を取得
+         * @summary ユーザー情報のTwitter情報を取得
+         * @param {string} userId ユーザーID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTwitterAccount(userId: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTwitterAccountResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTwitterAccount(userId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * TwitterApi - factory interface
+ * @export
+ */
+export const TwitterApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TwitterApiFp(configuration)
+    return {
+        /**
+         * Firebaseから取得した、アクセストークンを登録する
+         * @summary アクセストークンの登録
+         * @param {CreateTwitterAccessTokenRequest} createTwitterAccessTokenRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createTwitterAccessToken(createTwitterAccessTokenRequest: CreateTwitterAccessTokenRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.createTwitterAccessToken(createTwitterAccessTokenRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * アクセストークンを削除
+         * @summary twitterアクセストークンを削除
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTwitterAccessToken(options?: any): AxiosPromise<void> {
+            return localVarFp.deleteTwitterAccessToken(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * ユーザー情報のTwitter情報を取得
+         * @summary ユーザー情報のTwitter情報を取得
+         * @param {string} userId ユーザーID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTwitterAccount(userId: string, options?: any): AxiosPromise<GetTwitterAccountResponse> {
+            return localVarFp.getTwitterAccount(userId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TwitterApi - object-oriented interface
+ * @export
+ * @class TwitterApi
+ * @extends {BaseAPI}
+ */
+export class TwitterApi extends BaseAPI {
+    /**
+     * Firebaseから取得した、アクセストークンを登録する
+     * @summary アクセストークンの登録
+     * @param {CreateTwitterAccessTokenRequest} createTwitterAccessTokenRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TwitterApi
+     */
+    public createTwitterAccessToken(createTwitterAccessTokenRequest: CreateTwitterAccessTokenRequest, options?: any) {
+        return TwitterApiFp(this.configuration).createTwitterAccessToken(createTwitterAccessTokenRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * アクセストークンを削除
+     * @summary twitterアクセストークンを削除
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TwitterApi
+     */
+    public deleteTwitterAccessToken(options?: any) {
+        return TwitterApiFp(this.configuration).deleteTwitterAccessToken(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * ユーザー情報のTwitter情報を取得
+     * @summary ユーザー情報のTwitter情報を取得
+     * @param {string} userId ユーザーID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TwitterApi
+     */
+    public getTwitterAccount(userId: string, options?: any) {
+        return TwitterApiFp(this.configuration).getTwitterAccount(userId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * UserApi - axios parameter creator
  * @export
  */
@@ -255,7 +542,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 

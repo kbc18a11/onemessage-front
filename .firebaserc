@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "one-message-dec2c": {
+      "hosting": {
+        "onemessage-front": [
+          "one-message-dec2c"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "one-message-dec2c"
+  }
+}

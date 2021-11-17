@@ -10,7 +10,13 @@
     "gComponent": "ng g component component/${npm_config_name}",
     "gPage": "ng g component pages/${npm_config_name}",
     "gServices": "ng g service services/${npm_config_name}",
+    "gAdd": "ng add ${npm_config_name}",
     "test": "ng test"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   },
   "private": true,
   "dependencies": {
@@ -19,13 +25,18 @@
     "@angular/common": "~12.2.0",
     "@angular/compiler": "~12.2.0",
     "@angular/core": "~12.2.0",
+    "@angular/fire": "^7.2.0",
     "@angular/forms": "~12.2.0",
     "@angular/material": "^12.2.10",
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "@types/firebase": "^3.2.1",
     "@types/node": "^16.11.6",
     "axios": "^0.21.4",
+    "firebase": "^9.4.1",
+    "jasmine-ajax": "^4.0.0",
+    "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
