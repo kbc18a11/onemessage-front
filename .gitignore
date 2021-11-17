@@ -45,7 +45,7 @@ testem.log
 Thumbs.db
 
 .env
-environment.ts
+environment.local.ts
 
 # Firebase
 .firebase
