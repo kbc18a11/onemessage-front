@@ -1,16 +1,15 @@
-import { TwitterApi } from '@/apiclient';
+import { TwitterApi } from '@/app/apiclient';
 import { AuthService } from '@/app/services/auth/auth.service';
 import { environment } from '@/environments/environment';
-import { OverlayModule, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TwitterAuthProvider } from 'firebase/auth';
 
 import { TwitterAccountManagementCardComponent } from './twitter-account-management-card.component';
@@ -109,7 +108,8 @@ describe('TwitterAccountManagementCardComponent', () => {
           appId: environment.FREA_BASE_APP_ID,
         }),
         AngularFireAuthModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        RouterTestingModule
       ],
       providers: [
         AngularFireAuth,
