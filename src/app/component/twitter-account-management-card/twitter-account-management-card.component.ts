@@ -1,5 +1,5 @@
-import { Configuration } from '@/apiclient';
-import { GetTwitterAccountResponse, TwitterApi } from '@/apiclient/api';
+import { Configuration } from '@/app/apiclient';
+import { GetTwitterAccountResponse, TwitterApi } from '@/app/apiclient/';
 import { AuthService } from '@/app/services/auth/auth.service';
 import { environment } from '@/environments/environment';
 import { Overlay } from '@angular/cdk/overlay';
@@ -9,6 +9,7 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { TwitterAuthProvider, OAuthCredential } from 'firebase/auth';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { MatSpinner } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-twitter-account-management-card',
@@ -29,7 +30,8 @@ export class TwitterAccountManagementCardComponent implements OnInit {
     public authService: AuthService,
     public snackBar: MatSnackBar,
     public overlay: Overlay,
-    public angularFireAuth: AngularFireAuth
+    public angularFireAuth: AngularFireAuth,
+    public router: Router
   ) { }
 
   async ngOnInit() {
@@ -42,6 +44,19 @@ export class TwitterAccountManagementCardComponent implements OnInit {
 
       this.twitterAccount = twitterAccountResponse.data;
     } catch (e) {
+      console.error(e);
+
+      if (e.response.status === 404) {
+        // Twitter情報がない場合
+        return;
+      }
+
+      if (e.response.status === 401) {
+        this.authService.logout();
+        this.router.navigateByUrl('/login');
+        return;
+      }
+
       this.snackBar.open(
         'Twitterアカウント情報を取得できませんでした。大変申し訳ございませんが、画面を再読み込みを行って、もう一度登録を行ってください。'
         + 'それでも登録できない場合は、お手数をおかけいたしますが、運営に問い合わせをよろしくおねがいします。',
@@ -85,16 +100,24 @@ export class TwitterAccountManagementCardComponent implements OnInit {
       this.twitterAccount = twitterAccountResponse.data;
 
       this.snackBar.open('Twitterアカウントの登録が完了しました。', '閉じる', { verticalPosition: 'top' });
-    } catch (error) {
+    } catch (e) {
+      console.error(e);
+
+      if (e.response.status === 401) {
+        this.authService.logout();
+        this.router.navigateByUrl('/login');
+        return;
+      }
+
       this.snackBar.open(
         'Twitterアカウントを登録できませんでした。大変申し訳ございませんが、画面を再読み込みを行って、もう一度登録を行ってください。'
         + 'それでも登録できない場合は、お手数をおかけいたしますが、運営に問い合わせをよろしくおねがいします。',
         '閉じる',
         { verticalPosition: 'top' }
       );
+    } finally {
+      this.overlayRef.detach();
     }
-
-    this.overlayRef.detach();
   }
 
   /**
@@ -113,13 +136,22 @@ export class TwitterAccountManagementCardComponent implements OnInit {
       this.twitterAccount = null;
       this.snackBar.open('Twitterアカウントの解除が完了しました。', '閉じる', { verticalPosition: 'top' });
     } catch (e) {
+      console.error(e);
+
+      if (e.response.status === 401) {
+        this.authService.logout();
+        this.router.navigateByUrl('/login');
+        return;
+      }
+
       this.snackBar.open(
         'Twitterアカウント情報を解除できませんでした。大変申し訳ございませんが、画面を再読み込みを行って、もう一度解除を行ってください。'
         + 'それでも解除できない場合は、お手数をおかけいたしますが、運営に問い合わせをよろしくおねがいします。',
         '閉じる',
         { verticalPosition: 'top' }
       );
+    } finally {
+      this.overlayRef.detach();
     }
-    this.overlayRef.detach();
   }
 }
