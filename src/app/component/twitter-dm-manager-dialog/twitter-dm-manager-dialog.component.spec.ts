@@ -19,6 +19,7 @@ describe('TwitterDmManagerDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         OverlayModule,
+        MatSnackBarModule,
         RouterTestingModule,
       ],
       declarations: [TwitterDmManagerDialogComponent],
