@@ -91,7 +91,51 @@ export interface GetMeResponse {
     email?: string;
 }
 /**
- * TwitterのOAuth認可用のURL
+ * Twitterのフォロワー一覧
+ * @export
+ * @interface GetTwitterAccountFollowersResponse
+ */
+export interface GetTwitterAccountFollowersResponse {
+    /**
+     * 全てのフォロワー数
+     * @type {number}
+     * @memberof GetTwitterAccountFollowersResponse
+     */
+    total: number;
+    /**
+     * フォロワー一覧
+     * @type {Array<GetTwitterAccountFollowersResponseFollowers>}
+     * @memberof GetTwitterAccountFollowersResponse
+     */
+    followers: Array<GetTwitterAccountFollowersResponseFollowers>;
+}
+/**
+ * フォロワー情報
+ * @export
+ * @interface GetTwitterAccountFollowersResponseFollowers
+ */
+export interface GetTwitterAccountFollowersResponseFollowers {
+    /**
+     * ユーザーID
+     * @type {number}
+     * @memberof GetTwitterAccountFollowersResponseFollowers
+     */
+    id: number;
+    /**
+     * アカウント名
+     * @type {string}
+     * @memberof GetTwitterAccountFollowersResponseFollowers
+     */
+    screenName: string;
+    /**
+     * アカウントページのURL
+     * @type {string}
+     * @memberof GetTwitterAccountFollowersResponseFollowers
+     */
+    accountUrl: string;
+}
+/**
+ * Twitterのアカウント情報
  * @export
  * @interface GetTwitterAccountResponse
  */
@@ -134,6 +178,66 @@ export interface LoginRequest {
      */
     password: string;
 }
+/**
+ * DM送信情報
+ * @export
+ * @interface PostDmRequest
+ */
+export interface PostDmRequest {
+    /**
+     * メッセージ
+     * @type {string}
+     * @memberof PostDmRequest
+     */
+    message: string;
+    /**
+     * 送信先
+     * @type {Array<PostDmRequestSendingAddresses>}
+     * @memberof PostDmRequest
+     */
+    sendingAddresses: Array<PostDmRequestSendingAddresses>;
+}
+/**
+ * 送信先のユーザー情報
+ * @export
+ * @interface PostDmRequestAddresses
+ */
+export interface PostDmRequestAddresses {
+    /**
+     * 送信先のユーザーID
+     * @type {string}
+     * @memberof PostDmRequestAddresses
+     */
+    id: string;
+}
+/**
+ * プラットフォームごとの送信先一覧
+ * @export
+ * @interface PostDmRequestSendingAddresses
+ */
+export interface PostDmRequestSendingAddresses {
+    /**
+     * プラットフォームの種類
+     * @type {string}
+     * @memberof PostDmRequestSendingAddresses
+     */
+    platformType: PostDmRequestSendingAddressesPlatformTypeEnum;
+    /**
+     * 送信先一覧
+     * @type {Array<PostDmRequestAddresses>}
+     * @memberof PostDmRequestSendingAddresses
+     */
+    addresses: Array<PostDmRequestAddresses>;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum PostDmRequestSendingAddressesPlatformTypeEnum {
+    Twitter = 'twitter'
+}
+
 
 /**
  * AuthApi - axios parameter creator
@@ -243,6 +347,113 @@ export class AuthApi extends BaseAPI {
 
 
 /**
+ * DmApi - axios parameter creator
+ * @export
+ */
+export const DmApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * dmを送信
+         * @summary dm送信
+         * @param {PostDmRequest} postDmRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postDm: async (postDmRequest: PostDmRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'postDmRequest' is not null or undefined
+            assertParamExists('postDm', 'postDmRequest', postDmRequest)
+            const localVarPath = `/dm`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(postDmRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DmApi - functional programming interface
+ * @export
+ */
+export const DmApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DmApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * dmを送信
+         * @summary dm送信
+         * @param {PostDmRequest} postDmRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postDm(postDmRequest: PostDmRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postDm(postDmRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DmApi - factory interface
+ * @export
+ */
+export const DmApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DmApiFp(configuration)
+    return {
+        /**
+         * dmを送信
+         * @summary dm送信
+         * @param {PostDmRequest} postDmRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postDm(postDmRequest: PostDmRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.postDm(postDmRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DmApi - object-oriented interface
+ * @export
+ * @class DmApi
+ * @extends {BaseAPI}
+ */
+export class DmApi extends BaseAPI {
+    /**
+     * dmを送信
+     * @summary dm送信
+     * @param {PostDmRequest} postDmRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DmApi
+     */
+    public postDm(postDmRequest: PostDmRequest, options?: any) {
+        return DmApiFp(this.configuration).postDm(postDmRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * TwitterApi - axios parameter creator
  * @export
  */
@@ -321,8 +532,8 @@ export const TwitterApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * ユーザー情報のTwitter情報を取得
-         * @summary ユーザー情報のTwitter情報を取得
+         * ユーザーのTwitter情報を取得
+         * @summary ユーザーのTwitter情報を取得
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -341,6 +552,49 @@ export const TwitterApiAxiosParamCreator = function (configuration?: Configurati
 
             // authentication Authorization required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * ユーザーのTwitterアカウントのフォロワー情報の取得
+         * @summary Twitterアカウントのフォロワー情報の取得
+         * @param {number} [offset] フォロワーの取得開始位置 指定されない場合は、0から開始される 
+         * @param {number} [limit] フォロワーの取得数 指定されない場合は、最大量まで取得される 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTwitterAccountFollowers: async (offset?: number, limit?: number, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/twitter/account/followers`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
 
 
     
@@ -385,13 +639,25 @@ export const TwitterApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * ユーザー情報のTwitter情報を取得
-         * @summary ユーザー情報のTwitter情報を取得
+         * ユーザーのTwitter情報を取得
+         * @summary ユーザーのTwitter情報を取得
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async getTwitterAccount(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTwitterAccountResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getTwitterAccount(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * ユーザーのTwitterアカウントのフォロワー情報の取得
+         * @summary Twitterアカウントのフォロワー情報の取得
+         * @param {number} [offset] フォロワーの取得開始位置 指定されない場合は、0から開始される 
+         * @param {number} [limit] フォロワーの取得数 指定されない場合は、最大量まで取得される 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTwitterAccountFollowers(offset?: number, limit?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetTwitterAccountFollowersResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTwitterAccountFollowers(offset, limit, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -424,13 +690,24 @@ export const TwitterApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.deleteTwitterAccessToken(options).then((request) => request(axios, basePath));
         },
         /**
-         * ユーザー情報のTwitter情報を取得
-         * @summary ユーザー情報のTwitter情報を取得
+         * ユーザーのTwitter情報を取得
+         * @summary ユーザーのTwitter情報を取得
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         getTwitterAccount(options?: any): AxiosPromise<GetTwitterAccountResponse> {
             return localVarFp.getTwitterAccount(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * ユーザーのTwitterアカウントのフォロワー情報の取得
+         * @summary Twitterアカウントのフォロワー情報の取得
+         * @param {number} [offset] フォロワーの取得開始位置 指定されない場合は、0から開始される 
+         * @param {number} [limit] フォロワーの取得数 指定されない場合は、最大量まで取得される 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTwitterAccountFollowers(offset?: number, limit?: number, options?: any): AxiosPromise<GetTwitterAccountFollowersResponse> {
+            return localVarFp.getTwitterAccountFollowers(offset, limit, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -466,14 +743,27 @@ export class TwitterApi extends BaseAPI {
     }
 
     /**
-     * ユーザー情報のTwitter情報を取得
-     * @summary ユーザー情報のTwitter情報を取得
+     * ユーザーのTwitter情報を取得
+     * @summary ユーザーのTwitter情報を取得
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TwitterApi
      */
     public getTwitterAccount(options?: any) {
         return TwitterApiFp(this.configuration).getTwitterAccount(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * ユーザーのTwitterアカウントのフォロワー情報の取得
+     * @summary Twitterアカウントのフォロワー情報の取得
+     * @param {number} [offset] フォロワーの取得開始位置 指定されない場合は、0から開始される 
+     * @param {number} [limit] フォロワーの取得数 指定されない場合は、最大量まで取得される 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TwitterApi
+     */
+    public getTwitterAccountFollowers(offset?: number, limit?: number, options?: any) {
+        return TwitterApiFp(this.configuration).getTwitterAccountFollowers(offset, limit, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

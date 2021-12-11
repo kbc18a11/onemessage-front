@@ -1,0 +1,38 @@
+<div class="title">
+  Twitter設定
+</div>
+<div
+  class="followers-content"
+  *ngFor="let follower of followers"
+>
+  <mat-checkbox
+    [value]="follower.id"
+    (change)="selectFollowerIds($event)"
+  >
+    <a [href]="follower.screenName">{{ follower.screenName }}</a>
+  </mat-checkbox>
+</div>
+<mat-paginator
+  [length]="followersTotal"
+  [pageSize]="10"
+  aria-label="Select page"
+  (page)="getPaginatorData($event)"
+>
+</mat-paginator>
+<div class="button-content">
+  <button
+    mat-raised-button
+    color="primary"
+    class="button-item"
+    (click)="dialogRef.close(checkedfollowers)"
+  >
+    設定
+  </button>
+  <button
+    mat-raised-button
+    class="button-item"
+    (click)="dialogRef.close()"
+  >
+    キャンセル
+  </button>
+</div>
