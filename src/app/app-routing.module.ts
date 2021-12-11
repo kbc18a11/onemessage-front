@@ -5,11 +5,13 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { SocialAccountManagementComponent } from './pages/social-account-management/social-account-management.component';
+import { DmManagerComponent } from './pages/dm-manager/dm-manager.component';
 
 const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'social-account', component: SocialAccountManagementComponent, canActivate: [AuthGuard] },
+  { path: 'dm-manager', component: DmManagerComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }
 ];
 

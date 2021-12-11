@@ -1,0 +1,53 @@
+<div class="title">
+  DM送信管理
+</div>
+<mat-card class="message-setup">
+  <mat-card-title>送信メッセージ</mat-card-title>
+  <mat-card-content>
+    <mat-form-field
+      class="send-message"
+      appearance="fill"
+    >
+      <textarea
+        class="input-message"
+        matInput
+        placeholder="メッセージを入力"
+        [formControl]="message"
+      >
+      </textarea>
+      <mat-error *ngIf="message.hasError('required')">
+        必須項目です
+      </mat-error>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>
+<mat-card class="sns-setup">
+  <mat-card-title>Twitter設定</mat-card-title>
+  <mat-card-content class="button-content">
+    <button
+      mat-raised-button
+      color="primary"
+      class="button-item"
+      (click)="openTwitterDmManagerDialog()"
+    >
+      編集
+    </button>
+    <button
+      mat-raised-button
+      class="button-item"
+      (click)="resetTwitterSettings()"
+    >
+      設定をリセット
+    </button>
+  </mat-card-content>
+</mat-card>
+<div class="submit-button-content">
+  <button
+    mat-raised-button
+    color="primary"
+    class="button-item"
+    (click)="submit()"
+  >
+    送信
+  </button>
+</div>

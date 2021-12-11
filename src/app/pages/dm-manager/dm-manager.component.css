@@ -1,0 +1,44 @@
+.title {
+  margin: 30px 150px;
+  font-size: 2.5em;
+  font-weight: bold;
+}
+.mat-error {
+  font-size: 1.5em;
+}
+.mat-card {
+  max-width: 800px;
+  margin: 20px auto;
+}
+.message-setup .mat-card-title {
+  margin-bottom: 30px;
+}
+.send-message {
+  width: 80%;
+  display: block;
+  margin: auto;
+}
+.input-message {
+  resize: none;
+  width: 90%;
+  height: 200px;
+}
+.sns-setup {
+  display: flex;
+}
+.sns-setup .button-content {
+  margin-left: 50%;
+}
+.button-item {
+  display: inline-block;
+  margin-left: 20px;
+}
+.submit-button-content {
+  margin: auto;
+}
+.submit-button-content .button-item {
+  display: block;
+  margin: auto;
+  width: 100px !important;
+  min-width: unset !important;
+}
