@@ -52,11 +52,12 @@ export class TwitterDmManagerDialogComponent implements OnInit {
 
       this.followers = response.data.followers.map(follower => {
         return {
-          id: String(follower.id),
+          id: follower.id,
           screenName: follower.screenName,
           accountUrl: follower.accountUrl
         }
       });
+
       this.followersTotal = response.data.total;
     } catch (e) {
       console.error(e);

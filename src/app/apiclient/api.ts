@@ -117,10 +117,10 @@ export interface GetTwitterAccountFollowersResponse {
 export interface GetTwitterAccountFollowersResponseFollowers {
     /**
      * ユーザーID
-     * @type {number}
+     * @type {string}
      * @memberof GetTwitterAccountFollowersResponseFollowers
      */
-    id: number;
+    id: string;
     /**
      * アカウント名
      * @type {string}
@@ -373,6 +373,9 @@ export const DmApiAxiosParamCreator = function (configuration?: Configuration) {
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
 
 
     
