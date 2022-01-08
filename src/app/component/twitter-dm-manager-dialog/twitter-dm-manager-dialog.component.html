@@ -9,7 +9,12 @@
     [value]="follower.id"
     (change)="selectFollowerIds($event)"
   >
-    <a [href]="follower.screenName">{{ follower.screenName }}</a>
+    <a
+      [href]="follower.accountUrl"
+      target="_blank"
+    >
+      {{ follower.screenName }}
+    </a>
   </mat-checkbox>
 </div>
 <mat-paginator
