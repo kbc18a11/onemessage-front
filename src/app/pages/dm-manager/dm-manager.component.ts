@@ -1,4 +1,4 @@
-import { Configuration, DmApi, PostDmRequest, PostDmRequestAddresses, PostDmRequestSendingAddresses, PostDmRequestSendingAddressesPlatformTypeEnum } from '@/app/apiclient';
+import { Configuration, DmApi, PostDmRequestAddresses, PostDmRequestSendingAddresses, PostDmRequestSendingAddressesPlatformTypeEnum } from '@/app/apiclient';
 import { TwitterDmManagerDialogComponent } from '@/app/component/twitter-dm-manager-dialog/twitter-dm-manager-dialog.component';
 import { AuthService } from '@/app/services/auth/auth.service';
 import { environment } from '@/environments/environment';
@@ -73,8 +73,6 @@ export class DmManagerComponent implements OnInit {
 
       if (twitterSendAdress) {
         twitterSendAdress.addresses = sendAdresses;
-        console.log(twitterSendAdress.addresses);
-
         return;
       }
     });

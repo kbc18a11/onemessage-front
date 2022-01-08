@@ -37,7 +37,6 @@ export class TwitterDmManagerDialogComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-
     await this.getFollowers();
   }
 
