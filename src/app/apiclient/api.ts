@@ -22,6 +22,44 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
+ * LINEアカウント情報
+ * @export
+ * @interface CreateAccountResponse
+ */
+export interface CreateAccountResponse {
+    /**
+     * アカウント名
+     * @type {string}
+     * @memberof CreateAccountResponse
+     */
+    screenName: string;
+    /**
+     * アカウントアイコン画像
+     * @type {string}
+     * @memberof CreateAccountResponse
+     */
+    profileImageURL: string;
+}
+/**
+ * LINEアカウント登録情報
+ * @export
+ * @interface CreateLineAccountRequest
+ */
+export interface CreateLineAccountRequest {
+    /**
+     * LINEのチャンネルトークン
+     * @type {string}
+     * @memberof CreateLineAccountRequest
+     */
+    channelToken: string;
+    /**
+     * LINEのアクセス用秘密鍵
+     * @type {string}
+     * @memberof CreateLineAccountRequest
+     */
+    channelSecretKey: string;
+}
+/**
  * 初期登録時のユーザー情報
  * @export
  * @interface CreateMeRequest
@@ -63,7 +101,26 @@ export interface CreateTwitterAccessTokenRequest {
      * @type {string}
      * @memberof CreateTwitterAccessTokenRequest
      */
-    secretKey?: string;
+    secretKey: string;
+}
+/**
+ * LINEアカウント情報
+ * @export
+ * @interface GetLineAccountResponse
+ */
+export interface GetLineAccountResponse {
+    /**
+     * アカウント名
+     * @type {string}
+     * @memberof GetLineAccountResponse
+     */
+    screenName: string;
+    /**
+     * アカウントアイコン画像
+     * @type {string}
+     * @memberof GetLineAccountResponse
+     */
+    profileImageURL: string;
 }
 /**
  * ユーザー情報
@@ -452,6 +509,242 @@ export class DmApi extends BaseAPI {
      */
     public postDm(postDmRequest: PostDmRequest, options?: any) {
         return DmApiFp(this.configuration).postDm(postDmRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * LineApi - axios parameter creator
+ * @export
+ */
+export const LineApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * LINEチャンネルトークン・シークレットを登録する
+         * @summary LINEアカウントの登録
+         * @param {CreateLineAccountRequest} createLineAccountRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createLineAccount: async (createLineAccountRequest: CreateLineAccountRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createLineAccountRequest' is not null or undefined
+            assertParamExists('createLineAccount', 'createLineAccountRequest', createLineAccountRequest)
+            const localVarPath = `/line/account`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createLineAccountRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * LINEアカウントを削除
+         * @summary LINEアカウントを削除
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteLineAccount: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/line/account`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * LINEアカウント情報を取得
+         * @summary LINEアカウント情報を取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLineAccount: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/line/account`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * LineApi - functional programming interface
+ * @export
+ */
+export const LineApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = LineApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * LINEチャンネルトークン・シークレットを登録する
+         * @summary LINEアカウントの登録
+         * @param {CreateLineAccountRequest} createLineAccountRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createLineAccount(createLineAccountRequest: CreateLineAccountRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateAccountResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createLineAccount(createLineAccountRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * LINEアカウントを削除
+         * @summary LINEアカウントを削除
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteLineAccount(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteLineAccount(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * LINEアカウント情報を取得
+         * @summary LINEアカウント情報を取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getLineAccount(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLineAccountResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getLineAccount(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * LineApi - factory interface
+ * @export
+ */
+export const LineApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = LineApiFp(configuration)
+    return {
+        /**
+         * LINEチャンネルトークン・シークレットを登録する
+         * @summary LINEアカウントの登録
+         * @param {CreateLineAccountRequest} createLineAccountRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createLineAccount(createLineAccountRequest: CreateLineAccountRequest, options?: any): AxiosPromise<CreateAccountResponse> {
+            return localVarFp.createLineAccount(createLineAccountRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * LINEアカウントを削除
+         * @summary LINEアカウントを削除
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteLineAccount(options?: any): AxiosPromise<void> {
+            return localVarFp.deleteLineAccount(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * LINEアカウント情報を取得
+         * @summary LINEアカウント情報を取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLineAccount(options?: any): AxiosPromise<GetLineAccountResponse> {
+            return localVarFp.getLineAccount(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * LineApi - object-oriented interface
+ * @export
+ * @class LineApi
+ * @extends {BaseAPI}
+ */
+export class LineApi extends BaseAPI {
+    /**
+     * LINEチャンネルトークン・シークレットを登録する
+     * @summary LINEアカウントの登録
+     * @param {CreateLineAccountRequest} createLineAccountRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LineApi
+     */
+    public createLineAccount(createLineAccountRequest: CreateLineAccountRequest, options?: any) {
+        return LineApiFp(this.configuration).createLineAccount(createLineAccountRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * LINEアカウントを削除
+     * @summary LINEアカウントを削除
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LineApi
+     */
+    public deleteLineAccount(options?: any) {
+        return LineApiFp(this.configuration).deleteLineAccount(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * LINEアカウント情報を取得
+     * @summary LINEアカウント情報を取得
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LineApi
+     */
+    public getLineAccount(options?: any) {
+        return LineApiFp(this.configuration).getLineAccount(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -1,0 +1,77 @@
+<mat-card *ngIf="lineAccount; else elseContent">
+  <mat-card-title>LINE</mat-card-title>
+  <mat-card-content class="account-info">
+    <div class="account-info-content">
+      <img
+        [src]="lineAccount.profileImageURL"
+        mat-card-image
+      >
+    </div>
+    <div class="account-info-content">
+      <div class="name">{{lineAccount.screenName}}</div>
+      <div class="button-content">
+        <button
+          mat-raised-button
+          color="primary"
+          class="button-item"
+          (click)="detachAccount()"
+        >
+          LINEアカウントを解除する
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<ng-template #elseContent>
+  <mat-card>
+    <mat-card-title>LINEアカウントを登録してください</mat-card-title>
+    <form
+      [formGroup]="formGroup"
+      (ngSubmit)="registerAccount()"
+    >
+      <div>
+        <mat-form-field
+          class="form-item"
+          appearance="standard"
+        >
+          <mat-label>channelToken</mat-label>
+          <div class="input-content">
+            <input
+              matInput
+              name="channelToken"
+              [formControl]="channelToken"
+            >
+          </div>
+          <mat-error *ngIf="channelToken.hasError('required')">
+            必須項目です
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field
+          class="form-item"
+          appearance="standard"
+        >
+          <mat-label>channelSecretKey</mat-label>
+          <div class="input-content">
+            <input
+              matInput
+              name="channelSecretKeyn"
+              [formControl]="channelSecretKey"
+            >
+          </div>
+          <mat-error *ngIf="channelSecretKey.hasError('required')">
+            必須項目です
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="button-content">
+        <button
+          mat-raised-button
+          color="primary"
+          class="button-item submit-button"
+        >
+          登録
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</ng-template>

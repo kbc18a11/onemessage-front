@@ -14,9 +14,6 @@ mat-card img {
 .account-info-content {
   margin-left: 20px;
 }
-.account-url {
-  margin-top: 10px;
-}
 .button-content {
   margin-top: 25px;
   text-align: center;
@@ -24,4 +21,9 @@ mat-card img {
 .submit-button {
   width: 100px !important;
   min-width: unset !important;
+}
+.mat-form-field {
+  width: 80%;
+  margin: auto;
+  display: block;
 }

@@ -18,7 +18,6 @@ import { Router } from '@angular/router';
 })
 export class TwitterAccountManagementCardComponent implements OnInit {
   twitterAccount: GetTwitterAccountResponse | null = null;
-  isAccounnt = false;
 
   overlayRef = this.overlay.create({
     hasBackdrop: true,
