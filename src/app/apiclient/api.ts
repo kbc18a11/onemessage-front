@@ -22,25 +22,6 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
- * LINEアカウント情報
- * @export
- * @interface CreateAccountResponse
- */
-export interface CreateAccountResponse {
-    /**
-     * アカウント名
-     * @type {string}
-     * @memberof CreateAccountResponse
-     */
-    screenName: string;
-    /**
-     * アカウントアイコン画像
-     * @type {string}
-     * @memberof CreateAccountResponse
-     */
-    profileImageURL: string;
-}
-/**
  * LINEアカウント登録情報
  * @export
  * @interface CreateLineAccountRequest
@@ -52,12 +33,25 @@ export interface CreateLineAccountRequest {
      * @memberof CreateLineAccountRequest
      */
     channelToken: string;
+}
+/**
+ * LINEアカウント情報
+ * @export
+ * @interface CreateLineAccountResponse
+ */
+export interface CreateLineAccountResponse {
     /**
-     * LINEのアクセス用秘密鍵
+     * アカウント名
      * @type {string}
-     * @memberof CreateLineAccountRequest
+     * @memberof CreateLineAccountResponse
      */
-    channelSecretKey: string;
+    displayName: string;
+    /**
+     * アカウントアイコン画像
+     * @type {string}
+     * @memberof CreateLineAccountResponse
+     */
+    pictureUrl: string;
 }
 /**
  * 初期登録時のユーザー情報
@@ -114,13 +108,13 @@ export interface GetLineAccountResponse {
      * @type {string}
      * @memberof GetLineAccountResponse
      */
-    screenName: string;
+    displayName: string;
     /**
      * アカウントアイコン画像
      * @type {string}
      * @memberof GetLineAccountResponse
      */
-    profileImageURL: string;
+    pictureUrl: string;
 }
 /**
  * ユーザー情報
@@ -641,7 +635,7 @@ export const LineApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createLineAccount(createLineAccountRequest: CreateLineAccountRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateAccountResponse>> {
+        async createLineAccount(createLineAccountRequest: CreateLineAccountRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateLineAccountResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createLineAccount(createLineAccountRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -682,7 +676,7 @@ export const LineApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createLineAccount(createLineAccountRequest: CreateLineAccountRequest, options?: any): AxiosPromise<CreateAccountResponse> {
+        createLineAccount(createLineAccountRequest: CreateLineAccountRequest, options?: any): AxiosPromise<CreateLineAccountResponse> {
             return localVarFp.createLineAccount(createLineAccountRequest, options).then((request) => request(axios, basePath));
         },
         /**
