@@ -3,12 +3,12 @@
   <mat-card-content class="account-info">
     <div class="account-info-content">
       <img
-        [src]="lineAccount.profileImageURL"
+        [src]="lineAccount.pictureUrl"
         mat-card-image
       >
     </div>
     <div class="account-info-content">
-      <div class="name">{{lineAccount.screenName}}</div>
+      <div class="name">{{lineAccount.displayName}}</div>
       <div class="button-content">
         <button
           mat-raised-button
@@ -34,31 +34,15 @@
           class="form-item"
           appearance="standard"
         >
-          <mat-label>channelToken</mat-label>
+          <mat-label>チャネルアクセストークン</mat-label>
           <div class="input-content">
             <input
               matInput
-              name="channelToken"
+              name="チャネルアクセストークン"
               [formControl]="channelToken"
             >
           </div>
           <mat-error *ngIf="channelToken.hasError('required')">
-            必須項目です
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field
-          class="form-item"
-          appearance="standard"
-        >
-          <mat-label>channelSecretKey</mat-label>
-          <div class="input-content">
-            <input
-              matInput
-              name="channelSecretKeyn"
-              [formControl]="channelSecretKey"
-            >
-          </div>
-          <mat-error *ngIf="channelSecretKey.hasError('required')">
             必須項目です
           </mat-error>
         </mat-form-field>

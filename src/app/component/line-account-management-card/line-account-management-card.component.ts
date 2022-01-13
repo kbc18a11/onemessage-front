@@ -26,9 +26,6 @@ export class LineAccountManagementCardComponent implements OnInit {
   formGroup = new FormGroup({
     channelToken: new FormControl('', [
       Validators.required,
-    ]),
-    channelSecretKey: new FormControl('', [
-      Validators.required,
     ])
   });
 
@@ -45,10 +42,6 @@ export class LineAccountManagementCardComponent implements OnInit {
 
   get channelToken() {
     return <FormControl>this.formGroup.get('channelToken');
-  }
-
-  get channelSecretKey() {
-    return <FormControl>this.formGroup.get('channelSecretKey');
   }
 
   /**
@@ -97,7 +90,6 @@ export class LineAccountManagementCardComponent implements OnInit {
       const response = await new LineApi(new Configuration({ basePath: environment.apiUrl, apiKey: this.authService.token }))
         .createLineAccount({
           channelToken: this.channelToken.value,
-          channelSecretKey: this.channelSecretKey.value
         })
 
       if (response.status !== 201) throw new Error();
