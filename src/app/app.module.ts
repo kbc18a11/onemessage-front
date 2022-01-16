@@ -34,6 +34,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { DmManagerComponent } from './pages/dm-manager/dm-manager.component';
 import { TwitterDmManagerDialogComponent } from './component/twitter-dm-manager-dialog/twitter-dm-manager-dialog.component';
 import { LineAccountManagementCardComponent } from './component/line-account-management-card/line-account-management-card.component';
+import { LineDmManagerDialogComponent } from './component/line-dm-manager-dialog/line-dm-manager-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { LineAccountManagementCardComponent } from './component/line-account-man
     TwitterAccountManagementCardComponent,
     DmManagerComponent,
     TwitterDmManagerDialogComponent,
-    LineAccountManagementCardComponent
+    LineAccountManagementCardComponent,
+    LineDmManagerDialogComponent
   ],
   imports: [
     BrowserModule,

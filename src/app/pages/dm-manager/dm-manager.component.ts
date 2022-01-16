@@ -1,4 +1,5 @@
 import { Configuration, DmApi, PostDmRequestAddresses, PostDmRequestSendingAddresses, PostDmRequestSendingAddressesPlatformTypeEnum } from '@/app/apiclient';
+import { LineDmManagerDialogComponent } from '@/app/component/line-dm-manager-dialog/line-dm-manager-dialog.component';
 import { TwitterDmManagerDialogComponent } from '@/app/component/twitter-dm-manager-dialog/twitter-dm-manager-dialog.component';
 import { AuthService } from '@/app/services/auth/auth.service';
 import { environment } from '@/environments/environment';
@@ -38,11 +39,16 @@ export class DmManagerComponent implements OnInit {
     {
       platformType: PostDmRequestSendingAddressesPlatformTypeEnum.Twitter,
       addresses: []
+    },
+    {
+      platformType: PostDmRequestSendingAddressesPlatformTypeEnum.Line,
+      addresses: []
     }
   ];
 
   constructor(
     public twitterDmManagerDialog: MatDialog,
+    public lineDmManagerDialog: MatDialog,
     public router: Router, public snackBar: MatSnackBar,
     public overlay: Overlay, public authService: AuthService
   ) { }
@@ -82,13 +88,44 @@ export class DmManagerComponent implements OnInit {
    * twitterの設定をリセットする
    */
   resetTwitterSettings() {
-    this.sendAdresses = this.sendAdresses.filter(sendAdress => sendAdress.platformType !== 'twitter');
+    const twitterIndex = 0;
+    this.sendAdresses[twitterIndex].addresses = [];
+  }
+
+  /**
+   * LINE設定のダイアログを開く
+   */
+  openLineDmManagerDialog() {
+    const lineDmManagerDialogRef = this.lineDmManagerDialog.open(LineDmManagerDialogComponent, {
+      width: '50%',
+    });
+
+    lineDmManagerDialogRef.afterClosed().subscribe((sendAdresses: PostDmRequestAddresses[] | undefined) => {
+      if (!sendAdresses) return;
+
+      const lineSendAdress = this.sendAdresses.find(sendAdress => sendAdress.platformType === 'line');
+
+      if (lineSendAdress) {
+        lineSendAdress.addresses = sendAdresses;
+        return;
+      }
+    });
+  }
+
+  /**
+   * LINEの設定をリセットする
+   */
+  resetLineSettings() {
+    const lineIndex = 1;
+    this.sendAdresses[lineIndex].addresses = [];
   }
 
   /**
    * submit
    */
   async submit() {
+    console.log(this.sendAdresses);
+
     if (!this.formGroup.valid) {
       // バリデーションエラーが存在する場合
       return;

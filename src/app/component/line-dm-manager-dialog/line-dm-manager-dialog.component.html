@@ -1,0 +1,38 @@
+<div class="title">
+  LINE設定
+</div>
+<div
+  class="friends-content"
+  *ngFor="let friend of friends"
+>
+  <mat-checkbox
+    [value]="friend.id"
+    (change)="selectFriendIds($event)"
+  >
+    {{ friend.id }}
+  </mat-checkbox>
+</div>
+<mat-paginator
+  [length]="friendsTotal"
+  [pageSize]="10"
+  aria-label="Select page"
+  (page)="getPaginatorData($event)"
+>
+</mat-paginator>
+<div class="button-content">
+  <button
+    mat-raised-button
+    color="primary"
+    class="button-item"
+    (click)="dialogRef.close(checkedFriends)"
+  >
+    設定
+  </button>
+  <button
+    mat-raised-button
+    class="button-item"
+    (click)="dialogRef.close()"
+  >
+    キャンセル
+  </button>
+</div>
