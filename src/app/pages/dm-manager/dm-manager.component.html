@@ -15,10 +15,12 @@
         [formControl]="message"
       >
       </textarea>
-      <mat-error *ngIf="message.hasError('required')">
+    </mat-form-field>
+    <div class="message-setup-error">
+      <mat-error *ngIf="messagefaildError">
         必須項目です
       </mat-error>
-    </mat-form-field>
+    </div>
   </mat-card-content>
 </mat-card>
 <mat-card class="sns-setup">

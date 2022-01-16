@@ -29,6 +29,8 @@ export class DmManagerComponent implements OnInit {
     ]),
   });
 
+  messagefaildError = false;
+
   overlayRef = this.overlay.create({
     hasBackdrop: true,
     positionStrategy: this.overlay
@@ -53,9 +55,7 @@ export class DmManagerComponent implements OnInit {
     public overlay: Overlay, public authService: AuthService
   ) { }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   /**
    * フォームで入力された送信メッセージ情報を取得
@@ -124,12 +124,12 @@ export class DmManagerComponent implements OnInit {
    * submit
    */
   async submit() {
-    console.log(this.sendAdresses);
-
     if (!this.formGroup.valid) {
-      // バリデーションエラーが存在する場合
+      if (this.message.hasError('required')) this.messagefaildError = true;
       return;
     }
+
+    if (this.messagefaildError) this.messagefaildError = false;
 
     this.overlayRef.attach(new ComponentPortal(MatSpinner));
 
