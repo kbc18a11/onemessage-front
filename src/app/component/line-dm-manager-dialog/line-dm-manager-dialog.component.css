@@ -1,0 +1,15 @@
+.title {
+  margin: 20px 100px;
+  font-size: 2em;
+  font-weight: bold;
+}
+.friends-content {
+  margin-left: 20px;
+}
+.button-content {
+  text-align: right;
+}
+.button-item {
+  display: inline-block;
+  margin-left: 20px;
+}

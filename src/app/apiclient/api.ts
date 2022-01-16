@@ -98,6 +98,38 @@ export interface CreateTwitterAccessTokenRequest {
     secretKey: string;
 }
 /**
+ * LINEの友達情報一覧
+ * @export
+ * @interface GetLineAccountFriendsResponse
+ */
+export interface GetLineAccountFriendsResponse {
+    /**
+     * 全ての友達情報数
+     * @type {number}
+     * @memberof GetLineAccountFriendsResponse
+     */
+    total: number;
+    /**
+     * 友達情報一覧
+     * @type {Array<GetLineAccountFriendsResponseFriends>}
+     * @memberof GetLineAccountFriendsResponse
+     */
+    friends: Array<GetLineAccountFriendsResponseFriends>;
+}
+/**
+ * 友達情報
+ * @export
+ * @interface GetLineAccountFriendsResponseFriends
+ */
+export interface GetLineAccountFriendsResponseFriends {
+    /**
+     * id
+     * @type {string}
+     * @memberof GetLineAccountFriendsResponseFriends
+     */
+    id: string;
+}
+/**
  * LINEアカウント情報
  * @export
  * @interface GetLineAccountResponse
@@ -286,7 +318,8 @@ export interface PostDmRequestSendingAddresses {
     * @enum {string}
     */
 export enum PostDmRequestSendingAddressesPlatformTypeEnum {
-    Twitter = 'twitter'
+    Twitter = 'twitter',
+    Line = 'line'
 }
 
 
@@ -618,6 +651,44 @@ export const LineApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * ユーザーのLINEアカウントの友達情報の取得
+         * @summary LINEアカウントの友達情報の取得
+         * @param {number} [limit] フォロワーの取得数 指定されない場合は、最大量まで取得される 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLineAccountFriends: async (limit?: number, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/line/account/friends`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -659,6 +730,17 @@ export const LineApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getLineAccount(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * ユーザーのLINEアカウントの友達情報の取得
+         * @summary LINEアカウントの友達情報の取得
+         * @param {number} [limit] フォロワーの取得数 指定されない場合は、最大量まで取得される 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getLineAccountFriends(limit?: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLineAccountFriendsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getLineAccountFriends(limit, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -696,6 +778,16 @@ export const LineApiFactory = function (configuration?: Configuration, basePath?
          */
         getLineAccount(options?: any): AxiosPromise<GetLineAccountResponse> {
             return localVarFp.getLineAccount(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * ユーザーのLINEアカウントの友達情報の取得
+         * @summary LINEアカウントの友達情報の取得
+         * @param {number} [limit] フォロワーの取得数 指定されない場合は、最大量まで取得される 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLineAccountFriends(limit?: number, options?: any): AxiosPromise<GetLineAccountFriendsResponse> {
+            return localVarFp.getLineAccountFriends(limit, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -739,6 +831,18 @@ export class LineApi extends BaseAPI {
      */
     public getLineAccount(options?: any) {
         return LineApiFp(this.configuration).getLineAccount(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * ユーザーのLINEアカウントの友達情報の取得
+     * @summary LINEアカウントの友達情報の取得
+     * @param {number} [limit] フォロワーの取得数 指定されない場合は、最大量まで取得される 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LineApi
+     */
+    public getLineAccountFriends(limit?: number, options?: any) {
+        return LineApiFp(this.configuration).getLineAccountFriends(limit, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

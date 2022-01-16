@@ -15,10 +15,12 @@
         [formControl]="message"
       >
       </textarea>
-      <mat-error *ngIf="message.hasError('required')">
+    </mat-form-field>
+    <div class="message-setup-error">
+      <mat-error *ngIf="messagefaildError">
         必須項目です
       </mat-error>
-    </mat-form-field>
+    </div>
   </mat-card-content>
 </mat-card>
 <mat-card class="sns-setup">
@@ -36,6 +38,26 @@
       mat-raised-button
       class="button-item"
       (click)="resetTwitterSettings()"
+    >
+      設定をリセット
+    </button>
+  </mat-card-content>
+</mat-card>
+<mat-card class="sns-setup">
+  <mat-card-title>LINE設定</mat-card-title>
+  <mat-card-content class="button-content">
+    <button
+      mat-raised-button
+      color="primary"
+      class="button-item"
+      (click)="openLineDmManagerDialog()"
+    >
+      編集
+    </button>
+    <button
+      mat-raised-button
+      class="button-item"
+      (click)="resetLineSettings()"
     >
       設定をリセット
     </button>

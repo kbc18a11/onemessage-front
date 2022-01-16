@@ -23,11 +23,17 @@
   width: 90%;
   height: 200px;
 }
+.message-setup-error {
+  margin-left: 80px;
+}
 .sns-setup {
   display: flex;
 }
+.sns-setup .mat-card-title {
+  width: 200px;
+}
 .sns-setup .button-content {
-  margin-left: 50%;
+  margin-left: 40%;
 }
 .button-item {
   display: inline-block;
@@ -38,7 +44,7 @@
 }
 .submit-button-content .button-item {
   display: block;
-  margin: auto;
+  margin: 5px auto;
   width: 100px !important;
   min-width: unset !important;
 }
