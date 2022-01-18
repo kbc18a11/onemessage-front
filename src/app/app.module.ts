@@ -35,6 +35,7 @@ import { DmManagerComponent } from './pages/dm-manager/dm-manager.component';
 import { TwitterDmManagerDialogComponent } from './component/twitter-dm-manager-dialog/twitter-dm-manager-dialog.component';
 import { LineAccountManagementCardComponent } from './component/line-account-management-card/line-account-management-card.component';
 import { LineDmManagerDialogComponent } from './component/line-dm-manager-dialog/line-dm-manager-dialog.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { LineDmManagerDialogComponent } from './component/line-dm-manager-dialog
     MatCheckboxModule,
     MatPaginatorModule,
     AngularFireAuthModule,
+    MatSlideToggleModule,
     AngularFireModule.initializeApp({
       apiKey: environment.FREA_BASE_APIKEY,
       authDomain: environment.FREA_BASE_AUTH_DOMAIN,

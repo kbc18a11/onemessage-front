@@ -2,9 +2,11 @@ import { Configuration, LineApi, PostDmRequestAddresses } from '@/app/apiclient'
 import { AuthService } from '@/app/services/auth/auth.service';
 import { environment } from '@/environments/environment';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -24,8 +26,14 @@ export class LineDmManagerDialogComponent implements OnInit {
   friends: checkboxFriendsData[] = [];
   friendsTotal = 0;
   checkedFriends: PostDmRequestAddresses[] = [];
-
+  isNotCertified = false;
   offset = 0;
+
+  formGroup = new FormGroup({
+    lineId: new FormControl('', [
+      Validators.required,
+    ])
+  });
 
   constructor(
     public authService: AuthService,
@@ -36,6 +44,32 @@ export class LineDmManagerDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFriends();
+  }
+
+  get lineId() {
+    return <FormControl>this.formGroup.get('lineId');
+  }
+
+  /**
+   * 未認証アカウントの送信先LINEIDの追加
+   *
+   * @returns
+   */
+  addLineId() {
+    if (!this.formGroup.valid) {
+      return;
+    }
+
+    this.checkedFriends.push({ id: this.lineId.value });
+  }
+
+  /**
+   * トグルボタンの切り替え
+   *
+   * @param $event
+   */
+  toggleChanges($event: MatSlideToggleChange) {
+    this.isNotCertified = $event.checked;
   }
 
   /**

@@ -13,3 +13,6 @@
   display: inline-block;
   margin-left: 20px;
 }
+.mat-form-field {
+  width: 80%;
+}
