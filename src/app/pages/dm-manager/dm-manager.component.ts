@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSpinner } from '@angular/material/progress-spinner';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -28,7 +29,6 @@ export class DmManagerComponent implements OnInit {
       Validators.required,
     ]),
   });
-
   messagefaildError = false;
 
   overlayRef = this.overlay.create({

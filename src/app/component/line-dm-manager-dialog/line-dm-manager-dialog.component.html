@@ -1,25 +1,69 @@
 <div class="title">
   LINE設定
 </div>
-<div
-  class="friends-content"
-  *ngFor="let friend of friends"
->
-  <mat-checkbox
-    [value]="friend.id"
-    (change)="selectFriendIds($event)"
+<div *ngIf="!isNotCertified; else elseContent">
+  <div
+    class="friends-content"
+    *ngFor="let friend of friends"
   >
-    {{ friend.id }}
-  </mat-checkbox>
+    <mat-checkbox
+      [value]="friend.id"
+      (change)="selectFriendIds($event)"
+    >
+      {{ friend.id }}
+    </mat-checkbox>
+  </div>
+  <mat-paginator
+    [length]="friendsTotal"
+    [pageSize]="10"
+    aria-label="Select page"
+    (page)="getPaginatorData($event)"
+  >
+  </mat-paginator>
 </div>
-<mat-paginator
-  [length]="friendsTotal"
-  [pageSize]="10"
-  aria-label="Select page"
-  (page)="getPaginatorData($event)"
->
-</mat-paginator>
+<ng-template #elseContent>
+  <div>送信先ID一覧</div>
+  <div
+    class="friends-content"
+    *ngFor="let friend of checkedFriends"
+  >
+    <div>
+      {{ friend.id }}
+    </div>
+  </div>
+  <form
+    [formGroup]="formGroup"
+    (ngSubmit)="addLineId()"
+  >
+    <div>
+      <mat-form-field appearance="standard">
+        <mat-label>LINEIDを入力</mat-label>
+        <input
+          matInput
+          name="LINEID"
+          [formControl]="lineId"
+        >
+        <mat-error *ngIf="lineId.hasError('required')">
+          必須項目です
+        </mat-error>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        class="button-item submit-button"
+      >
+        追加
+      </button>
+    </div>
+  </form>
+</ng-template>
 <div class="button-content">
+  <mat-slide-toggle
+    [checked]="isNotCertified"
+    (change)="toggleChanges($event)"
+  >
+    未認証アカウントはこちら
+  </mat-slide-toggle>
   <button
     mat-raised-button
     color="primary"
