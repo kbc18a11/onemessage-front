@@ -1,1 +1,9 @@
-<p>home works!</p>
+<h1 class="title">メッセージ送信履歴</h1>
+<ng-container *ngFor="let dmHistory of dmHistories">
+  <mat-card class="dm-history-info">
+    <mat-card-title>{{dateTimeFormatter(dmHistory.postDateTime)}}</mat-card-title>
+    <mat-card-content>
+      <div class="message">message</div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

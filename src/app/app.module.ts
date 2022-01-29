@@ -21,7 +21,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HeaderComponent } from './component/header/header.component';
@@ -36,6 +35,9 @@ import { TwitterDmManagerDialogComponent } from './component/twitter-dm-manager-
 import { LineAccountManagementCardComponent } from './component/line-account-management-card/line-account-management-card.component';
 import { LineDmManagerDialogComponent } from './component/line-dm-manager-dialog/line-dm-manager-dialog.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     DmManagerComponent,
     TwitterDmManagerDialogComponent,
     LineAccountManagementCardComponent,
-    LineDmManagerDialogComponent
+    LineDmManagerDialogComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

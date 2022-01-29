@@ -98,6 +98,38 @@ export interface CreateTwitterAccessTokenRequest {
     secretKey: string;
 }
 /**
+ * DM送信情報
+ * @export
+ * @interface GetDmResponse
+ */
+export interface GetDmResponse {
+    /**
+     * メッセージ送信履歴一覧
+     * @type {Array<GetDmResponseMessages>}
+     * @memberof GetDmResponse
+     */
+    messages: Array<GetDmResponseMessages>;
+}
+/**
+ * メッセージ送信履歴情報
+ * @export
+ * @interface GetDmResponseMessages
+ */
+export interface GetDmResponseMessages {
+    /**
+     * メッセージ送信履歴
+     * @type {string}
+     * @memberof GetDmResponseMessages
+     */
+    message: string;
+    /**
+     * メッセージ送信日時
+     * @type {string}
+     * @memberof GetDmResponseMessages
+     */
+    postDateTime: string;
+}
+/**
  * LINEの友達情報一覧
  * @export
  * @interface GetLineAccountFriendsResponse
@@ -437,6 +469,39 @@ export class AuthApi extends BaseAPI {
 export const DmApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * dm送信履歴を取得
+         * @summary dm送信履歴取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDm: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/dm`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Authorization required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * dmを送信
          * @summary dm送信
          * @param {PostDmRequest} postDmRequest 
@@ -486,6 +551,16 @@ export const DmApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = DmApiAxiosParamCreator(configuration)
     return {
         /**
+         * dm送信履歴を取得
+         * @summary dm送信履歴取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDm(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetDmResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDm(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * dmを送信
          * @summary dm送信
          * @param {PostDmRequest} postDmRequest 
@@ -507,6 +582,15 @@ export const DmApiFactory = function (configuration?: Configuration, basePath?: 
     const localVarFp = DmApiFp(configuration)
     return {
         /**
+         * dm送信履歴を取得
+         * @summary dm送信履歴取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDm(options?: any): AxiosPromise<GetDmResponse> {
+            return localVarFp.getDm(options).then((request) => request(axios, basePath));
+        },
+        /**
          * dmを送信
          * @summary dm送信
          * @param {PostDmRequest} postDmRequest 
@@ -526,6 +610,17 @@ export const DmApiFactory = function (configuration?: Configuration, basePath?: 
  * @extends {BaseAPI}
  */
 export class DmApi extends BaseAPI {
+    /**
+     * dm送信履歴を取得
+     * @summary dm送信履歴取得
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DmApi
+     */
+    public getDm(options?: any) {
+        return DmApiFp(this.configuration).getDm(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * dmを送信
      * @summary dm送信
