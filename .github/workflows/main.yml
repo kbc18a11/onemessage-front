@@ -13,4 +13,4 @@ jobs:
       Greeting: Hello
     steps:
       - name: "Say Hello Mona it's Monday"
-        run: ls
+        run: ls -la
